@@ -40,9 +40,35 @@
       ["L'ús del cinturó de seguretat:",["Només és obligatori en autopistes","És obligatori segons la normativa vigent, amb les excepcions previstes","Només és obligatori per al conductor","Depèn de l'asseguradora"],1,"La normativa estableix l'obligació d'utilitzar els cinturons i preveu excepcions concretes."]
     ]
   };
-  const state = {opposition:"policia",law:"constitucio",count:15,questions:[],index:0,answers:{},checked:{},history:[]};
+  const HISTORY_KEY = "oposiprep-history-v1";
+  function loadHistory(){
+    try {
+      const saved = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+      return Array.isArray(saved) ? saved.filter(x => x && typeof x.correct === "number" && typeof x.total === "number" && typeof x.percent === "number").slice(0,50) : [];
+    } catch (_) { return []; }
+  }
+  const state = {opposition:"policia",law:"constitucio",count:15,questions:[],index:0,answers:{},checked:{},history:loadHistory()};
   const dialog = $("#messageDialog");
   function message(title,body){$("#dialogTitle").textContent=title;$("#dialogMessage").textContent=body;if(dialog.showModal)dialog.showModal();else alert(title+"\n"+body);}
+  function refreshStats(){
+    const tests=state.history.length;
+    const total=state.history.reduce((n,x)=>n+x.total,0);
+    const hits=state.history.reduce((n,x)=>n+x.correct,0);
+    $("#statTests").textContent=tests;
+    $("#statAccuracy").textContent=total ? Math.round(hits/total*100)+"%" : "—";
+    $("#statBest").textContent=tests ? Math.max(...state.history.map(x=>x.percent))+"%" : "—";
+    const hist=$(".history-card");
+    if(tests){
+      const last=state.history[0];
+      hist.querySelector("strong").textContent=tests+" test"+(tests===1?" completat":"s completats");
+      hist.querySelector("p").textContent=last.date+" · "+last.law+" · "+last.percent+"% d'encerts";
+      hist.querySelector(".history-icon").textContent="✓";
+    } else {
+      hist.querySelector("strong").textContent="Historial de pràctica";
+      hist.querySelector("p").textContent="Quan completis un test, aquí veuràs els teus resultats.";
+      hist.querySelector(".history-icon").textContent="↗";
+    }
+  }
   function shuffle(list){const a=[...list];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
   $$(".opposition-card").forEach(card=>card.addEventListener("click",()=>{$$(".opposition-card").forEach(c=>c.classList.toggle("selected",c===card));state.opposition=card.dataset.opposition;}));
   $$(".law-item").forEach(item=>item.addEventListener("click",()=>{$$(".law-item").forEach(c=>c.classList.toggle("selected",c===item));state.law=item.dataset.law;}));
@@ -73,8 +99,9 @@
   function results(){
     const total=state.questions.length,correct=state.questions.filter((q,i)=>state.answers[i]===q[2]).length,percent=Math.round(correct/total*100);
     state.history.unshift({date:new Date().toLocaleDateString("ca-ES"),law:names[state.law],correct,total,percent});
-    const done=state.history.reduce((n,x)=>n+x.total,0),hits=state.history.reduce((n,x)=>n+x.correct,0);
-    $("#statTests").textContent=state.history.length;$("#statAccuracy").textContent=Math.round(hits/done*100)+"%";$("#statBest").textContent=Math.max(...state.history.map(x=>x.percent))+"%";
+    state.history=state.history.slice(0,50);
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(state.history)); } catch (_) {}
+    refreshStats();
     $("#quizCounter").textContent="TEST COMPLETAT";$("#quizPercent").textContent="100%";$("#quizProgressBar").style.width="100%";$("#quizLawLabel").textContent="RESULTAT · "+names[state.law].toLocaleUpperCase("ca");$("#quizTitle").textContent="Així ha anat aquesta sessió";$(".quiz-instruction").textContent="Has completat totes les preguntes.";
     $("#answerOptions").replaceChildren();$("#answerFeedback").hidden=true;
     const score=document.createElement("div");score.className="result-score";score.textContent=percent+"%";
@@ -84,11 +111,12 @@
     state.questions.forEach((q,i)=>{const row=document.createElement("div");row.className="review-item";const title=document.createElement("strong");title.textContent=(i+1)+". "+q[0];const detail=document.createElement("span");detail.textContent=(state.answers[i]===q[2]?"Correcte. ":"Incorrecte. Resposta correcta: "+String.fromCharCode(65+q[2])+". ")+q[1][q[2]]+" — "+q[3];row.append(title,detail);review.append(row);});
     const body=$(".quiz-body");body.append(score,summary,encouragement,review);
     const actions=$(".quiz-actions");actions.replaceChildren();const exit=document.createElement("button");exit.className="button button-outline";exit.textContent="Tornar a l'inici";exit.addEventListener("click",close);const retry=document.createElement("button");retry.className="button button-primary";retry.textContent="Repetir test →";retry.addEventListener("click",start);actions.append(exit,retry);
-    const hist=$(".history-card");hist.querySelector("strong").textContent=state.history.length+" test"+(state.history.length===1?" completat":"s completats");hist.querySelector("p").textContent=state.history[0].date+" · "+state.history[0].law+" · "+percent+"% d'encerts";hist.querySelector(".history-icon").textContent="✓";
+    refreshStats();
   }
   function close(){ $("#quizOverlay").hidden=true;document.body.style.overflow="";resetQuizBody();}
   function previous(){if(state.index>0){state.index--;render();}}
   function next(){if(!state.checked[state.index]){if(state.answers[state.index]===undefined){message("Tria una resposta","Selecciona una de les quatre opcions abans de continuar.");return;}state.checked[state.index]=true;render();return;}if(state.index<state.questions.length-1){state.index++;render();}else results();}
   $("#startTest").addEventListener("click",start);$("#prevQuestion").addEventListener("click",previous);$("#nextQuestion").addEventListener("click",next);
   $("#exitQuiz").addEventListener("click",()=>{if(confirm("Vols sortir del test? Perdràs el progrés d'aquesta sessió."))close();});
+  refreshStats();
 })();
