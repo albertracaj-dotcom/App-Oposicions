@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "OposiPrep — oposicions de policia local",
+  "short_name": "OposiPrep",
+  "description": "Prepara les oposicions d'agent de policia local a Catalunya amb tests i seguiment del progrés.",
+  "lang": "ca",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5f8fa",
+  "theme_color": "#102a43",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
