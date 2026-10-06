@@ -50,8 +50,13 @@
   $$(".count-option").forEach(btn=>btn.addEventListener("click",()=>{if(btn.classList.contains("premium-option")){message("Més preguntes amb Premium","Els tests de 30 i 50 preguntes formaran part de la subscripció. En aquesta demostració pots provar un test de 10 o 15 preguntes.");return;}$$(".count-option").forEach(b=>b.classList.toggle("active",b===btn));state.count=Number(btn.dataset.count);}));
   const premium=()=>message("OposiPrep Premium","La subscripció inclourà tests de diverses normes, sessions més llargues i seguiment ampliat. Els pagaments encara no estan activats: cal connectar un backend segur i un proveïdor de pagaments.");
   $("#upgradeTop").addEventListener("click",premium);$("#upgradeBottom").addEventListener("click",premium);$("#multiToggle").addEventListener("click",premium);$("#closeDialog").addEventListener("click",()=>dialog.close());
+  function resetQuizBody(){
+    $(".quiz-body").innerHTML='<p class="eyebrow" id="quizLawLabel"></p><h1 id="quizTitle"></h1><p class="quiz-instruction">Selecciona una única resposta.</p><div id="answerOptions" class="answer-options"></div><div id="answerFeedback" class="answer-feedback" hidden></div><div class="quiz-actions"><button class="button button-outline" id="prevQuestion">← Anterior</button><button class="button button-primary" id="nextQuestion">Comprovar resposta →</button></div>';
+    $("#prevQuestion").addEventListener("click",previous);$("#nextQuestion").addEventListener("click",next);
+  }
   function start(){
     if($("#lawText").value.trim()){message("Generació automàtica pendent","El text que enganxis no s'envia a cap servidor en aquesta demostració. Per generar preguntes a partir d'una norma cal connectar un servei d'IA al backend; aquesta funció encara no està activada.");return;}
+    resetQuizBody();
     state.questions=shuffle(banks[state.law]||banks.constitucio).slice(0,Math.min(state.count,(banks[state.law]||banks.constitucio).length));state.index=0;state.answers={};state.checked={};
     $("#quizOverlay").hidden=false;document.body.style.overflow="hidden";render();
     if(state.count>state.questions.length)message("Mode demostració","Aquesta norma disposa de "+state.questions.length+" preguntes de mostra. El banc complet de preguntes encara s'ha d'ampliar.");
@@ -81,7 +86,7 @@
     const actions=$(".quiz-actions");actions.replaceChildren();const exit=document.createElement("button");exit.className="button button-outline";exit.textContent="Tornar a l'inici";exit.addEventListener("click",close);const retry=document.createElement("button");retry.className="button button-primary";retry.textContent="Repetir test →";retry.addEventListener("click",start);actions.append(exit,retry);
     const hist=$(".history-card");hist.querySelector("strong").textContent=state.history.length+" test"+(state.history.length===1?" completat":"s completats");hist.querySelector("p").textContent=state.history[0].date+" · "+state.history[0].law+" · "+percent+"% d'encerts";hist.querySelector(".history-icon").textContent="✓";
   }
-  function close(){ $("#quizOverlay").hidden=true;document.body.style.overflow="";const body=$(".quiz-body");body.innerHTML='<p class="eyebrow" id="quizLawLabel"></p><h1 id="quizTitle"></h1><p class="quiz-instruction">Selecciona una única resposta.</p><div id="answerOptions" class="answer-options"></div><div id="answerFeedback" class="answer-feedback" hidden></div><div class="quiz-actions"><button class="button button-outline" id="prevQuestion">← Anterior</button><button class="button button-primary" id="nextQuestion">Comprovar resposta →</button></div>';$("#prevQuestion").addEventListener("click",previous);$("#nextQuestion").addEventListener("click",next);}
+  function close(){ $("#quizOverlay").hidden=true;document.body.style.overflow="";resetQuizBody();}
   function previous(){if(state.index>0){state.index--;render();}}
   function next(){if(!state.checked[state.index]){if(state.answers[state.index]===undefined){message("Tria una resposta","Selecciona una de les quatre opcions abans de continuar.");return;}state.checked[state.index]=true;render();return;}if(state.index<state.questions.length-1){state.index++;render();}else results();}
   $("#startTest").addEventListener("click",start);$("#prevQuestion").addEventListener("click",previous);$("#nextQuestion").addEventListener("click",next);
