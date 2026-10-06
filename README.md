@@ -8,7 +8,7 @@ Aplicació web inicial per practicar oposicions amb tests, revisar les respostes
 - Biblioteca de normes de mostra: Constitució espanyola, Llei 39/2015, Llei 40/2015, Llei orgànica 4/2015 i normativa de trànsit.
 - Tests de demostració amb quatre opcions de resposta, correcció i explicació.
 - Resum final amb percentatge d'encerts i repàs de cada pregunta.
-- Estadístiques bàsiques de les sessions durant la mateixa visita.
+- Estadístiques bàsiques i historial de fins a 50 tests, desats localment al navegador perquè es mantinguin entre visites al mateix dispositiu.
 - Interfície responsive per a ordinador i mòbil.
 - Accés visual a funcions Premium, marcades com a no disponibles fins a connectar els serveis necessaris.
 
@@ -23,7 +23,7 @@ Aquesta és una **versió inicial de demostració**. Les preguntes són exemples
 Encara no estan implementats:
 - Generació automàtica de preguntes amb IA a partir del text íntegre d'una norma pública.
 - Importació i actualització fiable de textos legals oficials.
-- Comptes d'usuari, sincronització i historial persistent.
+- Comptes d'usuari i sincronització entre dispositius. L'historial actual només es desa al navegador local.
 - Subscripcions, pagaments i verificació de permisos Premium.
 - Tests Premium que combinin diverses normes, estadístiques avançades i un banc ampli de preguntes.
 - Tests automatitzats i validació exhaustiva en diferents navegadors.
