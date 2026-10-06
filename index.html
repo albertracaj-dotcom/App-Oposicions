@@ -4,6 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102a43">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OposiPrep">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
   <meta name="description" content="Prepara les oposicions amb tests, seguiment del progrés i normativa organitzada per especialitat.">
   <title>OposiPrep — prepara la teva oposició</title>
   <link rel="stylesheet" href="css/variables.css">
@@ -16,7 +23,7 @@
     <nav class="top-nav" aria-label="Navegació principal">
       <a href="#biblioteca">Biblioteca</a><a href="#progres">El meu progrés</a>
     </nav>
-    <div class="account-area"><span class="plan-pill"><span class="status-dot"></span> Pla gratuït</span><button class="button button-small button-outline" id="upgradeTop">Passa a Premium</button></div>
+    <div class="account-area"><span class="plan-pill"><span class="status-dot"></span> Pla gratuït</span><button class="button button-small button-outline" id="installApp" hidden>Instal·la l’app</button><button class="button button-small button-outline" id="upgradeTop">Passa a Premium</button></div>
   </header>
 
   <main class="shell">
@@ -91,6 +98,7 @@
   </main>
 
   <dialog id="messageDialog" class="message-dialog"><div class="dialog-mark">✦</div><h2 id="dialogTitle">Properament</h2><p id="dialogMessage"></p><button class="button button-primary button-full" id="closeDialog">Entesos</button></dialog>
+  <script src="./js/pwa.js" defer></script>
   <section class="quiz-overlay" id="quizOverlay" hidden aria-labelledby="quizTitle">
     <div class="quiz-shell"><header class="quiz-header"><a class="brand" href="#"><span class="brand-mark">O</span><span>oposi<span class="brand-light">prep</span></span></a><button class="button button-outline button-small" id="exitQuiz">Sortir del test ×</button></header><div class="quiz-progress-row"><span id="quizCounter">PREGUNTA 1 DE 5</span><span id="quizPercent">20%</span></div><div class="quiz-progress"><span id="quizProgressBar"></span></div><div class="quiz-body"><p class="eyebrow" id="quizLawLabel">CONSTITUCIÓ ESPANYOLA</p><h1 id="quizTitle">Pregunta del test</h1><p class="quiz-instruction">Selecciona una única resposta.</p><div id="answerOptions" class="answer-options"></div><div id="answerFeedback" class="answer-feedback" hidden></div><div class="quiz-actions"><button class="button button-outline" id="prevQuestion">← Anterior</button><button class="button button-primary" id="nextQuestion">Comprovar resposta →</button></div></div><p class="quiz-disclaimer">Preguntes de mostra per validar el funcionament de l'app. Verifica sempre la normativa vigent i el text oficial.</p></div>
   </section>
