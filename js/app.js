@@ -2,7 +2,7 @@
   "use strict";
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
-  const names = { constitucio:"Constitució espanyola", "39":"Llei 39/2015", "40":"Llei 40/2015", "4":"Llei orgànica 4/2015", trafic:"Normativa de trànsit" };
+  const names = { constitucio:"Constitució espanyola", "39":"Llei 39/2015", "40":"Llei 40/2015", "4":"Llei orgànica 4/2015", "16":"Llei 16/1991 de les policies locals", trafic:"Normativa de trànsit" };
   const banks = {
     constitucio:[
       ["Segons la Constitució espanyola, on resideix la sobirania nacional?",["A les Corts Generals","En el poble espanyol","En el cap de l'Estat","En el Govern"],1,"L'article 1.2 estableix que la sobirania nacional resideix en el poble espanyol, del qual emanen els poders de l'Estat."],
@@ -31,6 +31,13 @@
       ["Quin criteri ha de regir les mesures d'intervenció policial?",["La màxima intensitat en tots els casos","La proporcionalitat segons les circumstàncies i el marc legal","La decisió del particular","La mesura més restrictiva automàticament"],1,"La intervenció ha de respectar la proporcionalitat i les garanties legals aplicables."],
       ["La identificació de persones en l'àmbit de la seguretat ciutadana:",["Es pot fer sense pressupòsit legal","S'ajusta als supòsits, finalitats i garanties establerts legalment","Permet retenir indefinidament","Sempre equival a una detenció penal"],1,"La identificació s'ha de practicar d'acord amb els supòsits i garanties que preveu la normativa."],
       ["Què s'ha de tenir present en imposar una sanció administrativa?",["La tipificació legal i les garanties del procediment","Només la percepció de l'agent","Que no cal motivar la decisió","Que les sancions es creen per instrucció interna"],0,"La potestat sancionadora està sotmesa als principis de legalitat, tipicitat, proporcionalitat i procediment."]
+    ],
+    "16":[
+      ["Quina norma regula específicament les policies locals a Catalunya?",["Llei 16/1991, de 10 de juliol","Llei orgànica 4/2015","Llei 39/2015","Reial decret legislatiu 6/2015"],0,"La Llei 16/1991, de 10 de juliol, regula les policies locals de Catalunya. Consulta el text vigent al Portal Jurídic de Catalunya."],
+      ["Quin és un àmbit d'actuació de les policies locals previst a la Llei 16/1991?",["Exercir funcions de policia judicial en els termes legals","Aprovar lleis autonòmiques","Dirigir els jutjats de pau","Imposar penes privatives de llibertat"],0,"La normativa atribueix funcions de policia judicial en els termes establerts per l'ordenament jurídic i la coordinació policial."],
+      ["En relació amb la policia local, qui exerceix el comandament superior del cos en l'àmbit municipal d'acord amb el marc legal?",["L'alcalde o alcaldessa, sens perjudici de les delegacions legalment possibles","El jutjat de guàrdia","El delegat del Govern sempre","El cap de la policia autonòmica"],0,"El comandament de la policia local s'insereix en l'organització municipal i s'ha d'interpretar d'acord amb la Llei 16/1991 i la normativa de règim local."],
+      ["Les policies locals de Catalunya formen part de:",["Els cossos de seguretat d'àmbit local","L'Administració de justícia","Les Forces Armades","Els serveis penitenciaris"],0,"Les policies locals són cossos de seguretat d'àmbit local, amb les funcions i principis que estableix la legislació aplicable."],
+      ["L'actuació de les policies locals s'ha d'ajustar:",["Als principis bàsics d'actuació de la normativa de forces i cossos de seguretat","Només a les ordres verbals de qualsevol autoritat","A criteris diferents per a cada agent","Exclusivament a les ordenances municipals"],0,"Els principis bàsics d'actuació inclouen el respecte a la Constitució i a la llei, la neutralitat, la integritat i la proporcionalitat. Cal contrastar cada supòsit amb la normativa vigent."]
     ],
     trafic:[
       ["Quina és la norma estatal bàsica en matèria de trànsit i seguretat viària?",["Reial decret legislatiu 6/2015","Llei 39/2015 exclusivament","Llei orgànica 4/2015 exclusivament","Codi civil"],0,"El Reial decret legislatiu 6/2015 aprova el text refós de la Llei sobre trànsit, circulació de vehicles de motor i seguretat viària."],
